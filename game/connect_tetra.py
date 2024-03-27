@@ -9,6 +9,7 @@ class ConnectTetra:
         self.player1 = player1
         self.player2 = player2
         self.current_player = self.player1
+        self.valid_moves = [col_index for col_index in range(self.gameboard.columns)]
         self.winner = None
         self.history = []
 
@@ -211,3 +212,12 @@ class ConnectTetra:
             self.gameboard.remove_row()
             self.gameboard.add_row()
             self.gameboard.add_column()
+
+    def update_valid_moves(self):
+        self.valid_moves = [col_index for col_index in range(self.gameboard.columns)]
+
+        if self.gameboard.columns == self.gameboard.MIN_COLS:
+            for col_index in range(self.gameboard.columns):
+                if self.gameboard.is_column_full(column_index=col_index):
+                    self.valid_moves.remove(col_index)
+
