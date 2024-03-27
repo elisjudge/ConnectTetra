@@ -45,6 +45,26 @@ class GameBoard():
     def add_row(self):
         self._board = np.vstack((np.zeros(self._columns, dtype=int), self._board))
 
+    def is_column_full(self, column_index):
+        column = self._board[:, column_index]
+        if np.all(column != 0):
+            return True
+        return False    
+
+    def is_bottomrow_full(self):
+        bottom_row = self._board[-1]
+        if np.all(bottom_row != 0):
+            return True
+        return False    
+
+    @property
+    def rows(self):
+        return self._rows
+    
+    @property
+    def columns(self):
+        return self._columns
+
     @property
     def board(self):
         return self._board
