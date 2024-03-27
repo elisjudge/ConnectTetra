@@ -17,7 +17,7 @@ class GameBoard():
             self._add_end = False
 
     def display(self):
-        print(self._board)
+        print(self._board, "\n")
 
     def add_column(self):
         if self._columns == GameBoard.MAX_COLS:

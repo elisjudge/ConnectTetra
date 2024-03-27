@@ -12,9 +12,11 @@ class ConnectTetra:
         self.valid_moves = [col_index for col_index in range(self.gameboard.columns)]
         self.winner = None
         self.history = []
+        self.n_moves = 0
 
     def execute_move(self, player:Player, move):
         self.gameboard.board = (move, player.symbol)
+        self.n_moves += 1
 
     def is_winner(self):
         if self.is_4_in_a_row_horizontal():
@@ -221,3 +223,14 @@ class ConnectTetra:
                 if self.gameboard.is_column_full(column_index=col_index):
                     self.valid_moves.remove(col_index)
 
+    def switch_turns(self):
+        if self.current_player == self.player1:
+            self.current_player = self.player2
+        elif self.current_player == self.player2:
+            self.current_player = self.player1  
+
+    def announce_winner(self):
+        if self.player1.symbol == self.winner:
+            print(f"{self.player1.name} won.")
+        elif self.player2.symbol == self.winner:
+            print(f"{self.player2.name} won.")
