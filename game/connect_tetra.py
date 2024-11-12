@@ -19,14 +19,15 @@ class ConnectTetra:
         self.n_moves += 1
 
     def is_winner(self):
-        if self.is_4_in_a_row_horizontal():
-            return self.is_4_in_a_row_horizontal()
-        elif self.is_4_in_a_row_vertical():
-            return self.is_4_in_a_row_vertical()
-        elif self.is_4_in_a_row_diag_left():
-            return self.is_4_in_a_row_diag_left()
-        elif self.is_4_in_a_row_diag_right():
-            return self.is_4_in_a_row_diag_right()
+        for check_method in [
+            self.is_4_in_a_row_horizontal,
+            self.is_4_in_a_row_vertical,
+            self.is_4_in_a_row_diag_left,
+            self.is_4_in_a_row_diag_right,
+        ]:
+            result = check_method()
+            if result:
+                return result
         return 0
 
     def is_4_in_a_row_horizontal(self):
