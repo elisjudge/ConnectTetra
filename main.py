@@ -2,6 +2,7 @@ import numpy as np
 import time
 from game.connect_tetra import ConnectTetra
 from ai.base_ai import BaseAI
+from utils.utils import timeit, profiler
 
 def play_game():
     game = ConnectTetra(player1=BaseAI(name="Player1", symbol=1), player2=BaseAI(name="Player2", symbol=2))
@@ -35,13 +36,12 @@ def play_game():
         print("Game ended in Stalemate")
         game.gameboard.display()
 
-    
+@timeit
+@profiler    
 def main():
-    play_game()
+    n_games = 1000
+    for _ in range(n_games):
+        play_game()
 
 if __name__ == "__main__":
-    start_time = time.time()
     main()
-    end_time = time.time()
-    execution_time = end_time - start_time
-    print("Total Game time:", execution_time, "seconds")
