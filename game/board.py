@@ -1,13 +1,16 @@
 import numpy as np
 import random
+import config as c
 
 class GameBoard():
-    MAX_COLS = 10
-    MIN_COLS = 5
+    MAX_COLS = c.MAX_COLS
+    MIN_COLS = c.MIN_COLS
 
     def __init__(self, rows=6, columns=7) -> None:
         self._rows = rows
         self._columns = columns
+        self._max_cols = c.MAX_COLS
+        self._min_cols = c.MIN_COLS
         self._board = np.full((rows, columns), 0)
         
         rand_n = random.random()
@@ -15,9 +18,6 @@ class GameBoard():
             self._add_end = True
         else:
             self._add_end = False
-
-    def display(self):
-        print(self._board, "\n")
 
     def add_column(self):
         if self._columns == GameBoard.MAX_COLS:
@@ -56,6 +56,9 @@ class GameBoard():
         if np.all(bottom_row != 0):
             return True
         return False    
+    
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(\n{self._board}\n)"
 
     @property
     def rows(self):
