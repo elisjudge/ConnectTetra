@@ -1,5 +1,4 @@
 import numpy as np
-import time
 from game.connect_tetra import ConnectTetra
 from ai.base_ai import BaseAI
 from utils.utils import timeit, profiler
