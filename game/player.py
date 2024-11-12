@@ -1,5 +1,3 @@
-from game.board import GameBoard
-
 class Player:
     def __init__(self, name:str, symbol:int): 
         self.name = name
