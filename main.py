@@ -7,8 +7,7 @@ def play_game():
     game = ConnectTetra(player1=BaseAI(name="Player1", symbol=1), player2=BaseAI(name="Player2", symbol=2))
     
     while game.n_moves <= 120:
-        print(f"Number of Moves: {game.n_moves}")
-        game.gameboard.display()
+        
         current_state = game.gameboard.board
         current_move = game.current_player.select_move(valid_moves = game.valid_moves, state=current_state)
 
@@ -18,14 +17,14 @@ def play_game():
         game.winner = game.is_winner()
         if game.winner:
             game.announce_winner()
-            game.gameboard.display()
+            print(f"Number of Moves: {game.n_moves}")
             break
         
         game.check_rows_columns_state(move=current_move)
         game.winner = game.is_winner()
         if game.winner:
             game.announce_winner()
-            game.gameboard.display()
+            print(f"Number of Moves: {game.n_moves}")
             break
 
         game.update_valid_moves()
@@ -33,7 +32,6 @@ def play_game():
     
     if not game.winner:
         print("Game ended in Stalemate")
-        game.gameboard.display()
 
 @timeit
 @profiler    
