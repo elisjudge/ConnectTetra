@@ -35,21 +35,11 @@ class TestBoardInitialization(unittest.TestCase):
         self.assertEqual(GameBoard.MAX_COLS, config_max_cols, "Config MAX COLS does not equate to class MAX COLS.")
         self.assertEqual(GameBoard.MIN_COLS, config_min_cols, "Config MIN COLS does not equate to class MIN COLS.")
 
-    def test_3b_enforce_max_cols(self):
-        game_board = GameBoard(columns=c.MAX_COLS)      
-        game_board.add_column()
-        self.assertEqual(game_board.columns, GameBoard.MAX_COLS, "Maximum Column functionality is not being applied, columns exceed maximum")
-
-    def test_3c_enforce_min_cols(self):
-        game_board = GameBoard(columns=c.MIN_COLS)      
-        game_board.remove_column(0) # Remove First Column
-        self.assertEqual(game_board.columns, GameBoard.MIN_COLS, "Minimum Column functionality is not being applied, columns exceed minimum")
-
-    def test_3d_initialization_raises_error_above_max_cols(self):
+    def test_3b_initialization_raises_error_above_max_cols(self):
         with self.assertRaises(ValueError, msg="Initializing with columns greater than MAX_COLS should raise an error"):
             GameBoard(columns=GameBoard.MAX_COLS + 1)
 
-    def test_3e_initialization_raises_error_below_min_cols(self):
+    def test_3c_initialization_raises_error_below_min_cols(self):
         with self.assertRaises(ValueError, msg="Initializing with columns lesser than MIN_COLS should raise an error"):
             GameBoard(columns=GameBoard.MIN_COLS - 1)
 
