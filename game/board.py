@@ -7,6 +7,8 @@ class GameBoard():
     MIN_COLS = c.MIN_COLS
 
     def __init__(self, rows=6, columns=7) -> None:
+        if not (GameBoard.MIN_COLS <= columns <= GameBoard.MAX_COLS):
+            raise ValueError(f"Columns must be between {self.MIN_COLS} and {self.MAX_COLS}, got {columns}.")
         self._rows = rows
         self._columns = columns
         self._max_cols = c.MAX_COLS
