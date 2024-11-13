@@ -43,9 +43,11 @@ class GameBoard():
                 
     def remove_row(self):
         self._board = np.delete(self._board, -1, axis=0)
+        self._rows -= 1
     
     def add_row(self):
         self._board = np.vstack((np.zeros(self._columns, dtype=int), self._board))
+        self._rows += 1
 
     def is_column_full(self, column_index):
         column = self._board[:, column_index]
