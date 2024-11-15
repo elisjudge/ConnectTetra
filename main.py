@@ -3,6 +3,13 @@ from game.connect_tetra import ConnectTetra
 from ai.base_ai import BaseAI
 from utils.utils import timeit, profiler
 
+import logging
+from logger import setup_logging
+
+logger = logging.getLogger("app")
+
+setup_logging()
+
 def play_game():
     game = ConnectTetra(player1=BaseAI(name="Player1", symbol=1), player2=BaseAI(name="Player2", symbol=2))
     
@@ -36,6 +43,7 @@ def play_game():
 @timeit
 @profiler    
 def main():
+    logger.debug("This is a debug message")
     n_games = 1000
     for _ in range(n_games):
         play_game()
