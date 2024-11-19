@@ -5,6 +5,8 @@ from game.player import Player
 
 class ConnectTetra:
     def __init__(self, player1:Player, player2:Player) -> None:
+        if player1.symbol != 1 or player2.symbol != 2:
+            raise ValueError("Players not initialized with correct symbols")
         self.gameboard = GameBoard()
         self.player1 = player1
         self.player2 = player2
