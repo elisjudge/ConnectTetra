@@ -1,5 +1,4 @@
 import unittest
-import config as c
 from game.connect_tetra import ConnectTetra as Game
 from game.player import Player
 from game.board import GameBoard
@@ -13,16 +12,17 @@ class TestGameInitialization(unittest.TestCase):
         self.player1 = Player(name="Player 1", symbol = 1)
         self.player2 = Player(name="Player 2", symbol = 2)
         self.game = Game(player1=self.player1, player2=self.player2)
-        self.attribute_names = [
+        self.expected_attributes  = [
             "gameboard",
             "player1",
             "player2",
             "current_player",
             "valid_moves",
             "winner",
+            "history",
             "n_moves"
         ]
-        self.method_names = [
+        self.expected_methods = [
             "execute_move",
             "is_winner",
             "is_4_in_a_row_horizontal",
@@ -36,12 +36,12 @@ class TestGameInitialization(unittest.TestCase):
         ]
 
     def test_1_initialize_game_attributes(self):
-        for attribute in self.attribute_names:
+        for attribute in self.expected_attributes:
             with self.subTest(attribute=attribute):
                 self.assertTrue(hasattr(self.game, attribute), f"Game is supposed to initialize with attribute called {attribute}")
 
     def test_2_check_game_methods(self):
-        for method_name in self.method_names:
+        for method_name in self.expected_methods:
             with self.subTest(method=method_name):
                 self.assertTrue(callable(getattr(self.game, method_name, None)), f"Game class should have method {method_name}")
         
@@ -90,3 +90,11 @@ class TestGameInitialization(unittest.TestCase):
 
     def test_7_initialize_game_counter(self):
         self.assertEqual(self.game.n_moves, 0, "Move counter 'n_moves' should be initialized to 0")
+
+    def test_8a_check_default_game_history_tracking(self):
+        self.assertIsNone(self.game.history, "Game history should be initialized to None")
+
+    def test_8b_initialize_with_history_tracking(self):
+        expected_default_history = []
+        track_history_game = Game(player1=self.player1, player2=self.player2, track_history=True)
+        self.assertEqual(track_history_game.history, expected_default_history, f"Game history should be initialized to {expected_default_history}")

@@ -4,7 +4,7 @@ from game.board import GameBoard
 from game.player import Player
 
 class ConnectTetra:
-    def __init__(self, player1:Player, player2:Player) -> None:
+    def __init__(self, player1:Player, player2:Player, track_history:bool = False) -> None:
         if player1.symbol != 1 or player2.symbol != 2:
             raise ValueError("Players not initialized with correct symbols")
         self.gameboard = GameBoard()
@@ -13,7 +13,7 @@ class ConnectTetra:
         self.current_player = self.player1
         self.valid_moves = [col_index for col_index in range(self.gameboard.columns)]
         self.winner = None
-        self.history = []
+        self.history = [] if track_history else None
         self.n_moves = 0
 
     def execute_move(self, player:Player, move):
