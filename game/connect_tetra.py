@@ -2,9 +2,10 @@ import numpy as np
 
 from game.board import GameBoard
 from game.player import Player
+from utils.validators import strict_move_validation_check
 
 class ConnectTetra:
-    def __init__(self, player1:Player, player2:Player, track_history:bool = False) -> None:
+    def __init__(self, player1:Player, player2:Player, track_history:bool = False, strict_mode:bool = False) -> None:
         if player1.symbol != 1 or player2.symbol != 2:
             raise ValueError("Players not initialized with correct symbols")
         self.gameboard = GameBoard()
@@ -15,8 +16,12 @@ class ConnectTetra:
         self.winner = None
         self.history = [] if track_history else None
         self.n_moves = 0
+        self.strict_mode = strict_mode
 
+    @strict_move_validation_check
     def execute_move(self, player:Player, move):
+        if player != self.current_player:
+            raise ValueError(f"It is not {player.name}'s turn. Current player is {self.current_player.name}.")
         self.gameboard.board = (move, player.symbol)
         self.n_moves += 1
 

@@ -20,7 +20,8 @@ class TestGameInitialization(unittest.TestCase):
             "valid_moves",
             "winner",
             "history",
-            "n_moves"
+            "n_moves",
+            "strict_mode"
         ]
         self.expected_methods = [
             "execute_move",
@@ -32,7 +33,7 @@ class TestGameInitialization(unittest.TestCase):
             "check_rows_columns_state",
             "update_valid_moves",
             "switch_turns",
-            "announce_winner"
+            "announce_winner",
         ]
 
     def test_1_initialize_game_attributes(self):
@@ -53,6 +54,7 @@ class TestGameInitialization(unittest.TestCase):
         self.assertIsInstance(self.game.valid_moves, list, "Valid moves of Game is meant to be of type list")
         self.assertIsNone(self.game.winner, "Winner of Game is meant to be None")
         self.assertIsInstance(self.game.n_moves, int, "Game counter 'n_moves' is meant to be of type int")
+        self.assertIsInstance(self.game.strict_mode, bool, "Game Strict Mode is meant to be of type bool")
 
     def test_4a_distinct_player_symbols(self):
         self.assertNotEqual(self.game.player1.symbol, self.player2.symbol, "Player symbols must be distinct from each other")
@@ -98,3 +100,10 @@ class TestGameInitialization(unittest.TestCase):
         expected_default_history = []
         track_history_game = Game(player1=self.player1, player2=self.player2, track_history=True)
         self.assertEqual(track_history_game.history, expected_default_history, f"Game history should be initialized to {expected_default_history}")
+
+    def test_9a_check_default_strict_mode(self):
+        self.assertFalse(self.game.strict_mode, "Game default strict mode should be set to False")
+
+    def test_9b_initialize_with_strict_mode(self):
+        strict_mode_game = Game(player1=self.player1, player2=self.player2, strict_mode=True)
+        self.assertTrue(strict_mode_game.strict_mode, "Game default strict mode should be set to True")
