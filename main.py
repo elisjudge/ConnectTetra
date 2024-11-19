@@ -20,6 +20,7 @@ def play_game():
 
         game.history.append((np.copy(current_state), current_move, game.current_player))
         game.execute_move(game.current_player, current_move)
+        print(game.gameboard)
 
         game.winner = game.is_winner()
         if game.winner:
@@ -44,7 +45,7 @@ def play_game():
 @profiler    
 def main():
     logger.debug("This is a debug message")
-    n_games = 1000
+    n_games = 1
     for _ in range(n_games):
         play_game()
 
