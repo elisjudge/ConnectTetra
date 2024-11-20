@@ -25,6 +25,8 @@ class TestGameInitialization(unittest.TestCase):
         ]
         self.expected_methods = [
             "execute_move",
+            "check_full_board",
+            "validate_game_state",
             "is_winner",
             "is_4_in_a_row_horizontal",
             "is_4_in_a_row_vertical",
@@ -107,3 +109,6 @@ class TestGameInitialization(unittest.TestCase):
     def test_9b_initialize_with_strict_mode(self):
         strict_mode_game = Game(player1=self.player1, player2=self.player2, strict_mode=True)
         self.assertTrue(strict_mode_game.strict_mode, "Game default strict mode should be set to True")
+
+if __name__ == "__main__":
+    unittest.main()

@@ -1,0 +1,2 @@
+class FullBoardError(ValueError):
+    pass

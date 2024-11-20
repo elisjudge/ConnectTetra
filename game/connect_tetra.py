@@ -3,6 +3,7 @@ import numpy as np
 from game.board import GameBoard
 from game.player import Player
 from utils.validators import strict_move_validation_check
+from utils.errors import FullBoardError
 
 class ConnectTetra:
     def __init__(self, player1:Player, player2:Player, track_history:bool = False, strict_mode:bool = False) -> None:
@@ -20,10 +21,42 @@ class ConnectTetra:
 
     @strict_move_validation_check
     def execute_move(self, player:Player, move):
+        # validations
+        self.check_full_board()
+        if self.history is not None:
+            self.validate_game_state()
+
         if player != self.current_player:
             raise ValueError(f"It is not {player.name}'s turn. Current player is {self.current_player.name}.")
+        # execute move
         self.gameboard.board = (move, player.symbol)
+        if self.history is not None:
+           self.history.append((np.copy(self.gameboard.board), move, player)) 
         self.n_moves += 1
+        self.switch_turns()
+
+    def validate_game_state(self):
+        """Checks for board state anomallies between prior and current move.  
+        Only active if tracking_history is True. """
+        if len(self.history) >= 2:
+            last_board_state = self.history[-1][0]
+            print(f"Last Board State: {last_board_state}")
+        else:
+            temp_gameboard = GameBoard()
+            last_board_state = temp_gameboard.board
+            print(f"Last Board State: {last_board_state}")
+
+        
+        current_board_state = np.copy(self.gameboard.board)
+        print(f"Current Board State: {current_board_state}")
+
+        if not np.array_equal(last_board_state, current_board_state):
+            raise ValueError("Board state validation failed. The board state has changed unexpectedly between moves.")
+
+    def check_full_board(self):
+        """Ensures that the game remains an incomplete version of Connect Four"""
+        if np.all(self.gameboard.board != 0):
+            raise FullBoardError("Board is unexpectedly full. Game cannot continue.")    
 
     def is_winner(self):
         for check_method in [
@@ -223,13 +256,12 @@ class ConnectTetra:
             self.gameboard.add_row()
             self.gameboard.add_column()
 
-    def update_valid_moves(self):
-        self.valid_moves = [col_index for col_index in range(self.gameboard.columns)]
+        self.update_valid_moves()
 
-        if self.gameboard.columns == self.gameboard.MIN_COLS:
-            for col_index in range(self.gameboard.columns):
-                if self.gameboard.is_column_full(column_index=col_index):
-                    self.valid_moves.remove(col_index)
+    def update_valid_moves(self):
+        self.valid_moves = [
+            col_index for col_index in range(self.gameboard.columns)
+        ]
 
     def switch_turns(self):
         if self.current_player == self.player1:
