@@ -40,15 +40,11 @@ class ConnectTetra:
         Only active if tracking_history is True. """
         if len(self.history) >= 2:
             last_board_state = self.history[-1][0]
-            print(f"Last Board State: {last_board_state}")
         else:
             temp_gameboard = GameBoard()
             last_board_state = temp_gameboard.board
-            print(f"Last Board State: {last_board_state}")
-
         
         current_board_state = np.copy(self.gameboard.board)
-        print(f"Current Board State: {current_board_state}")
 
         if not np.array_equal(last_board_state, current_board_state):
             raise ValueError("Board state validation failed. The board state has changed unexpectedly between moves.")
